@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker Statistiche D&D Pokémon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="panel saved-panel" id="saved-panel">
+            <h2>Gestione Party (Salvati)</h2>
+            <div id="saved-list">
+                <p>Nessun Pokémon salvato al momento.</p>
+            </div>
+        </div>
+
+        <div class="panel setup-panel">
+            <h2>Carica un nuovo Pokémon</h2>
+            <div class="form-group">
+                <label for="poke-name">Specie o ID:</label>
+                <input type="text" id="poke-name" placeholder="es., pikachu o 25" required>
+            </div>
+            <div class="form-group">
+                <label for="poke-level">Livello (1-100):</label>
+                <input type="number" id="poke-level" min="1" max="100" value="5" required>
+            </div>
+            <div class="form-group">
+                <label for="poke-nature">Natura (IT/EN):</label>
+                <input type="text" id="poke-nature" placeholder="es., Timida o Timid">
+            </div>
+            <div class="form-group">
+                <label for="poke-xp">Punti Esperienza Iniziali:</label>
+                <input type="number" id="poke-xp" min="0" value="0">
+            </div>
+            <button id="btn-load">Genera Dati</button>
+            <p id="loading-msg" class="hidden">Recupero dati da PokéAPI in corso...</p>
+        </div>
+
+        <div class="panel display-panel hidden" id="display-card">
+            <div class="header">
+                <img id="poke-sprite" src="" alt="Sprite">
+                <div class="title-info">
+                    <h1 id="display-name">Nome</h1>
+                    <div id="display-types" class="types"></div>
+                    <p>Livello <span id="display-level"></span> | Natura <span id="display-nature"></span></p>
+                </div>
+            </div>
+
+            <div class="xp-bar-container">
+                <div class="xp-info">
+                    <span>PE: <span id="current-xp">0</span> / <span id="xp-to-next">0</span> al prossimo livello</span>
+                    <span>PE Totali: <span id="total-xp">0</span></span>
+                </div>
+                <div class="xp-bar">
+                    <div id="xp-fill" class="xp-fill"></div>
+                </div>
+            </div>
+
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Statistica</th>
+                        <th>Base</th>
+                        <th>Calcolata</th>
+                        <th>Bonus D&D</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-body">
+                    </tbody>
+            </table>
+            <p class="tile-info">Velocità di Movimento (Caselle): <strong id="display-tile"></strong></p>
+
+            <hr>
+
+            <div class="actions">
+                <div class="action-box">
+                    <h3>Aggiungi PE Liberi</h3>
+                    <input type="number" id="add-raw-xp" placeholder="Quantità">
+                    <button id="btn-add-xp">Aggiungi</button>
+                </div>
+                <div class="action-box">
+                    <h3>Sconfiggi Pokémon</h3>
+                    <input type="text" id="enemy-name" placeholder="Nome/ID Nemico">
+                    <input type="number" id="enemy-level" placeholder="Livello" min="1" max="100">
+                    <button id="btn-defeat">Sconfiggi e Ottieni PE</button>
+                </div>
+                <div class="action-box" style="grid-column: 1 / -1;">
+                    <h3>Salva nel Party</h3>
+                    <input type="text" id="custom-save-name" placeholder="Nome personalizzato (es. Sparky)">
+                    <button id="btn-save-poke" style="background-color: #2196F3;">Salva / Aggiorna</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="pokeclass.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
