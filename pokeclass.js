@@ -35,7 +35,7 @@ class StatUtils {
 		{ min: 290, max: Infinity, bonus: 11 },
 	];
 
-	static spdTable = [
+	static speTable = [
 		{ min: 1, max: 29, bonus: 0, tile: 3 },
 		{ min: 30, max: 49, bonus: 1, tile: 4 },
 		{ min: 50, max: 69, bonus: 2, tile: 6 },
@@ -53,7 +53,7 @@ class StatUtils {
 	static getTable(stat) {
 		if (stat == 'atk' || stat == 'spa') return this.atkTable;
 		if (stat == 'def' || stat == 'spd') return this.defTable;
-		if (stat == 'spe') return this.spdTable;
+		if (stat == 'spe') return this.speTable;
 
 		return null;
 	}
