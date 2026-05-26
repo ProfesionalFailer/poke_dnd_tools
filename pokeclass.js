@@ -318,7 +318,7 @@ class Pokemon {
 			const statValue = this.base_stats[stat];
 
 			if (stat == 'hp') {
-				this.stats[stat] = Math.round(((2 * statValue + IV + Math.floor(EV / 4)) * this.level) / 100) + this.level + 10;
+				this.stats[stat] = Math.floor(((2 * statValue + IV + Math.floor(EV / 4)) * this.level) / 100) + this.level + 10;
 				continue;
 			}
 
@@ -333,7 +333,7 @@ class Pokemon {
 			const statValue = this.stats[stat];
 
 			if (stat == 'hp') {
-				this.dnd_stats[stat] = Math.floor(Math.max(statValue * 0.70, statValue - 0.0214 * Math.pow(statValue, 1.49)));
+				this.dnd_stats[stat] = Math.round(Math.max(statValue * 0.70, statValue - 0.0214 * Math.pow(statValue, 1.49)));
 				continue;
 			}
 
