@@ -215,7 +215,7 @@ class GrowthUtils {
 	}
 
 	static nameCorrector(rate) {
-		const rates = {'slow-then-very-fast': 'irregolare', 'fast' : 'veloce', 'medium': 'medio-veloce', 'medium-slow': 'medio-veloce', 'slow': 'lenta','fast-then-very-slow': 'fluttuante'};
+		const rates = {'slow-then-very-fast': 'irregolare', 'fast' : 'veloce', 'medium': 'medio-lenta', 'medium-slow': 'medio-veloce', 'slow': 'lenta','fast-then-very-slow': 'fluttuante'};
 
 		return rates[rate] || rate;
 	}
