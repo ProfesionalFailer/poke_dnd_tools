@@ -1,7 +1,3 @@
-function getSpriteUrl(id) {
-    return `https://raw.githubusercontent.com/PMDCollab/SpriteCollab/refs/heads/master/portrait/${id ? id.toString().padStart(4, '0') : '0000'}/Normal.png`;
-}
-
 class StatUtils {
 	static stats = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 
@@ -66,41 +62,39 @@ class StatUtils {
 }
 
 class TypeUtils {
-  static typeMap = {
-    normal: "normale",
-    fire: "fuoco",
-    water: "acqua",
-    electric: "elettro",
-    grass: "erba",
-    ice: "ghiaccio",
-    fighting: "lotta",
-    poison: "veleno",
-    ground: "terra",
-    flying: "volante",
-    psychic: "psico",
-    bug: "coleottero",
-    rock: "roccia",
-    ghost: "spettro",
-    dragon: "drago",
-    dark: "buio",
-    steel: "acciaio",
-    fairy: "folletto"
-  };
+	static typeMap = {
+		normal: 'normale',
+		fire: 'fuoco',
+		water: 'acqua',
+		electric: 'elettro',
+		grass: 'erba',
+		ice: 'ghiaccio',
+		fighting: 'lotta',
+		poison: 'veleno',
+		ground: 'terra',
+		flying: 'volante',
+		psychic: 'psico',
+		bug: 'coleottero',
+		rock: 'roccia',
+		ghost: 'spettro',
+		dragon: 'drago',
+		dark: 'buio',
+		steel: 'acciaio',
+		fairy: 'folletto',
+	};
 
-  static enToIt(type) {
-    if (!type) return null;
-    return this.typeMap[type.toLowerCase()] || null;
-  }
+	static enToIt(type) {
+		if (!type) return null;
+		return this.typeMap[type.toLowerCase()] || null;
+	}
 
-  static itToEn(type) {
-    if (!type) return null;
+	static itToEn(type) {
+		if (!type) return null;
 
-    const entry = Object.entries(this.typeMap).find(
-      ([en, it]) => it === type.toLowerCase()
-    );
+		const entry = Object.entries(this.typeMap).find(([en, it]) => it === type.toLowerCase());
 
-    return entry ? entry[0] : null;
-  }
+		return entry ? entry[0] : null;
+	}
 }
 
 class NatureUtils {
@@ -182,11 +176,9 @@ class NatureUtils {
 	}
 }
 
-
 class GrowthUtils {
-
 	static formulas = {
-		irregolare(lvl) {
+		'irregolare'(lvl) {
 			const l3 = Math.pow(lvl, 3);
 
 			if (lvl < 50) return Math.floor((l3 * (100 - lvl)) / 50);
@@ -194,28 +186,33 @@ class GrowthUtils {
 			if (lvl < 98) return Math.floor((l3 * Math.floor((1911 - 10 * lvl) / 3)) / 500);
 			return Math.floor((l3 * (160 - lvl)) / 100);
 		},
-		veloce: lvl => Math.floor((4 * lvl ** 3) / 5),
+		'veloce': (lvl) => Math.floor((4 * lvl ** 3) / 5),
 
-		"medio-veloce": lvl => lvl ** 3,
+		'medio-veloce': (lvl) => lvl ** 3,
 
-		"medio-lenta": lvl =>
-			Math.floor(Math.floor(6 * (lvl ** 3) / 5) - (15 * (lvl ** 2)) + 100 * lvl - 140),
+		'medio-lenta': (lvl) => Math.floor(Math.floor((6 * lvl ** 3) / 5) - 15 * lvl ** 2 + 100 * lvl - 140),
 
-		lenta: lvl => Math.floor((5 * lvl ** 3) / 4),
+		'lenta': (lvl) => Math.floor((5 * lvl ** 3) / 4),
 
-		fluttuante(lvl) {
+		'fluttuante'(lvl) {
 			const l3 = lvl ** 3;
 
-			if (lvl < 15) return Math.floor(l3 * Math.floor((lvl + 1) / 3 + 24) / 50);
-			if (lvl < 36) return Math.floor(l3 * (lvl + 14) / 50);
+			if (lvl < 15) return Math.floor((l3 * Math.floor((lvl + 1) / 3 + 24)) / 50);
+			if (lvl < 36) return Math.floor((l3 * (lvl + 14)) / 50);
 
-			return Math.floor(l3 * (Math.floor(lvl / 2) + 32) / 50);
-
-		}
-	}
+			return Math.floor((l3 * (Math.floor(lvl / 2) + 32)) / 50);
+		},
+	};
 
 	static nameCorrector(rate) {
-		const rates = {'slow-then-very-fast': 'irregolare', 'fast' : 'veloce', 'medium': 'medio-veloce', 'medium-slow': 'medio-lenta', 'slow': 'lenta','fast-then-very-slow': 'fluttuante'};
+		const rates = {
+			'slow-then-very-fast': 'irregolare',
+			'fast': 'veloce',
+			'medium': 'medio-veloce',
+			'medium-slow': 'medio-lenta',
+			'slow': 'lenta',
+			'fast-then-very-slow': 'fluttuante',
+		};
 
 		return rates[rate] || rate;
 	}
@@ -237,11 +234,9 @@ class GrowthUtils {
 	static getXpToNext(rate, lvl) {
 		if (lvl == 100) return 0;
 
-		return this.getTotalXp(rate, lvl + 1) - this.getTotalXp(rate, lvl); 
+		return this.getTotalXp(rate, lvl + 1) - this.getTotalXp(rate, lvl);
 	}
-
 }
-
 
 class Pokemon {
 	id = null;
@@ -263,7 +258,7 @@ class Pokemon {
 
 	constructor(level, nature = null) {
 		if (level < 1 || level > 100) throw new Error('Livello non valido (deve essere 1–100)');
-		
+
 		this.level = level;
 
 		if (nature !== null && !NatureUtils.checkValid(nature)) throw new Error('Natura non valida');
@@ -271,7 +266,7 @@ class Pokemon {
 		this.nature = nature;
 	}
 
-	async init(name_id, xp=0) {
+	async init(name_id, xp = 0) {
 		const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name_id}`);
 		const data = await res.json();
 
@@ -282,7 +277,7 @@ class Pokemon {
 		this.base_xp = data.base_experience;
 
 		const res2 = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${this.id}`);
-		const data2 = await res2.json()
+		const data2 = await res2.json();
 
 		this.growth_rate = GrowthUtils.nameCorrector(data2.growth_rate.name);
 
@@ -302,18 +297,18 @@ class Pokemon {
 			if (this.level == 100) this.current_xp = 0;
 		}
 
-		this.calculateXp()
+		this.calculateXp();
 		this.calculateStats();
 		this.calculateDNDStats();
 	}
 
 	calculateXp() {
-		this.given_xp = Math.floor(2 * this.level * this.base_xp / 5);
+		this.given_xp = Math.floor((2 * this.level * this.base_xp) / 5);
 		this.total_xp = GrowthUtils.getTotalXp(this.growth_rate, this.level);
 		this.xp_to_level = GrowthUtils.getXpToNext(this.growth_rate, this.level);
 	}
 
-	calculateStats(IV=31, EV=0) {
+	calculateStats(IV = 31, EV = 0) {
 		for (const stat in this.base_stats) {
 			const statValue = this.base_stats[stat];
 
@@ -333,7 +328,7 @@ class Pokemon {
 			const statValue = this.stats[stat];
 
 			if (stat == 'hp') {
-				this.dnd_stats[stat] = Math.round(Math.max(statValue * 0.70, statValue - 0.0214 * Math.pow(statValue, 1.49)));
+				this.dnd_stats[stat] = Math.round(Math.max(statValue * 0.7, statValue - 0.0214 * Math.pow(statValue, 1.49)));
 				continue;
 			}
 
@@ -347,8 +342,6 @@ class Pokemon {
 		}
 	}
 
-	
-
 	static async create(name_id, level = 1, nature = null, xp = 0) {
 		const p = new Pokemon(level, nature);
 		await p.init(name_id, xp);
@@ -360,29 +353,29 @@ async function mainStuff() {
 	const [, , name, levelArg, nature] = process.argv;
 
 	if (!name) {
-		console.log("Usage:");
-		console.log("  node cli.js <pokemon-name> [level] [nature]");
-		console.log("");
-		console.log("Example:");
-		console.log("  node cli.js pikachu 25 brave");
+		console.log('Usage:');
+		console.log('  node cli.js <pokemon-name> [level] [nature]');
+		console.log('');
+		console.log('Example:');
+		console.log('  node cli.js pikachu 25 brave');
 		process.exit(1);
 	}
 
 	const level = Number(levelArg) || 1;
-		const pokemon = await Pokemon.create(name, level, nature);
+	const pokemon = await Pokemon.create(name, level, nature);
 
-		console.log("========================");
-		console.log(`Nome   : ${pokemon.name}`);
-		console.log(`ID     : ${pokemon.id}`);
-		console.log(`Livello  : ${pokemon.level}`);
-		console.log(`Natura : ${pokemon.nature || "None"}`);
-		console.log(`Tipi  : ${pokemon.type.join(", ")}`);
-		console.log(`Statistiche: ${JSON.stringify(pokemon.stats)}`);
-		console.log(`Statistiche DND: ${JSON.stringify(pokemon.dnd_stats)}`);
-		console.log(`Caselle per turno: ${pokemon.tile}`)
-		console.log(`Tasso di crescita: ${pokemon.growth_rate}`);
-		console.log(`Esperienza totale: ${pokemon.total_xp}`);
-		console.log(`Esperienza a livello: ${pokemon.xp_to_level}`);
-		console.log(`Esperienza ceduta alla sconfitta: ${pokemon.given_xp}`)
-		console.log("========================");
+	console.log('========================');
+	console.log(`Nome   : ${pokemon.name}`);
+	console.log(`ID     : ${pokemon.id}`);
+	console.log(`Livello  : ${pokemon.level}`);
+	console.log(`Natura : ${pokemon.nature || 'None'}`);
+	console.log(`Tipi  : ${pokemon.type.join(', ')}`);
+	console.log(`Statistiche: ${JSON.stringify(pokemon.stats)}`);
+	console.log(`Statistiche DND: ${JSON.stringify(pokemon.dnd_stats)}`);
+	console.log(`Caselle per turno: ${pokemon.tile}`);
+	console.log(`Tasso di crescita: ${pokemon.growth_rate}`);
+	console.log(`Esperienza totale: ${pokemon.total_xp}`);
+	console.log(`Esperienza a livello: ${pokemon.xp_to_level}`);
+	console.log(`Esperienza ceduta alla sconfitta: ${pokemon.given_xp}`);
+	console.log('========================');
 }
